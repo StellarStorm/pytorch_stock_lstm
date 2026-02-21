@@ -1,14 +1,15 @@
+import pandas as pd
 import streamlit as st
 import torch
-import pandas as pd
+
+from dataset import StockDataset
 from model import LSTMClassifier
 from stock_data import fetch_stock_data
-from dataset import StockDataset
 
 st.title("Stock Price Direction and Percentage Change Prediction")
 
 ticker = st.text_input("Enter stock ticker symbol")
-print("Ticker:",ticker)
+print("Ticker:", ticker)
 
 if ticker:
     df = fetch_stock_data(ticker)
@@ -31,10 +32,12 @@ if ticker:
 
     forecast_pct = out_pct.squeeze(0).tolist()
     forecast_days = [f"Day +{i+1}" for i in range(5)]
-    forecast_df = pd.DataFrame({
-        "Day": forecast_days,
-        "Predicted % Change": [f"{p*100:.2f}%" for p in forecast_pct]
-    })
+    forecast_df = pd.DataFrame(
+        {
+            "Day": forecast_days,
+            "Predicted % Change": [f"{p*100:.2f}%" for p in forecast_pct],
+        }
+    )
 
     st.markdown("**Forecasted Percentage Change for Next 5 Days:**")
     st.dataframe(forecast_df)

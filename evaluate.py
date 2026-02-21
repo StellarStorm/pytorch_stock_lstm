@@ -1,10 +1,12 @@
 import torch
 from sklearn.metrics import accuracy_score, classification_report
-from torch.utils.data import DataLoader
-from dataset import StockDataset
-from stock_data import fetch_stock_data
-from model import LSTMClassifier
 from sklearn.model_selection import train_test_split
+from torch.utils.data import DataLoader
+
+from dataset import StockDataset
+from model import LSTMClassifier
+from stock_data import fetch_stock_data
+
 
 def evaluate(model, data_loader):
     model.eval()
@@ -20,6 +22,7 @@ def evaluate(model, data_loader):
     print(f"Accuracy: {acc:.4f}")
     print("Classification Report:")
     print(report)
+
 
 if __name__ == "__main__":
     df = fetch_stock_data("AAPL")
