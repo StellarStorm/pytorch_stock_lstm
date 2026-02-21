@@ -1,4 +1,13 @@
+import torch
 import torch.nn as nn
+
+
+def accel() -> torch.device:
+    if torch.cuda.is_available():
+        return torch.device('cuda')
+    elif torch.backends.mps.is_available():
+        return torch.device('mps')
+    return torch.device('cpu')
 
 
 class LSTMClassifier(nn.Module):

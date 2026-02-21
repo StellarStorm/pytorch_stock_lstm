@@ -35,7 +35,7 @@ pip install -r requirements.txt
 ### 3. Run the Streamlit app
 
 ```bash
-streamlit run train.py
+streamlit run app.py
 ```
 
 ## 📈 How It Works
