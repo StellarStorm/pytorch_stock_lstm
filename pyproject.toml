@@ -1,0 +1,49 @@
+[project]
+name = "pytorch-stock-lstm"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.10.8",
+    "pandas>=2.3.3",
+    "scikit-learn>=1.8.0",
+    "streamlit>=1.54.0",
+    "torch>=2.10.0",
+    "watchdog>=6.0.0",
+    "yfinance>=1.2.0",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu" },
+]
+torchvision = [
+  { index = "pytorch-cpu" },
+]
+
+[tool.ruff]
+line-length = 80
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.black]
+line-length = 80
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+line_length = 80
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.5.1",
+    "ruff>=0.15.2",
+    "ty>=0.0.18",
+]
