@@ -150,7 +150,10 @@ def train_model(
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
             torch.save(
-                model.state_dict(),
+                {
+                    'state_dict': model.state_dict(),
+                    'hidden_size': hidden_size,
+                },
                 os.path.join('models', f'{ticker}_model.pth'),
             )
             print(

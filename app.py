@@ -80,7 +80,7 @@ if st.button('🔮 Predict Future Movement', key='predict_button'):
                     f'Not enough raw data (need > window size={window_size}).'
                 )
             else:
-                current_price = float(df['Close'].iloc[-1])
+                current_price = float(df['Close'].iloc[-1].item())
                 previous_close = (
                     df['Close'].iloc[-2].item()
                     if len(df) > 1
@@ -94,9 +94,10 @@ if st.button('🔮 Predict Future Movement', key='predict_button'):
                 )
                 st.markdown('**Current Price and change from yesterday close**')
                 st.metric(
-                    label='',
+                    label='Current Price',
                     value=f'${current_price:.2f}',
                     delta=f'{price_change:+.2f} ({percent_change:+.2f}%)',
+                    label_visibility='collapsed',
                 )
 
                 dataset = StockDataset(df, window=window_size)
@@ -111,8 +112,12 @@ if st.button('🔮 Predict Future Movement', key='predict_button'):
                     else:
                         x = x.unsqueeze(0)
                         st.text(f'Input shape including batch: {x.shape}')
-                        model = LSTMClassifier(input_size=5)
-                        model.load_state_dict(torch.load(model_path))
+                        checkpoint = torch.load(model_path)
+                        hidden_size = checkpoint['hidden_size']
+                        model = LSTMClassifier(
+                            input_size=5, hidden_size=hidden_size
+                        )
+                        model.load_state_dict(checkpoint['state_dict'])
                         model.eval()
                         try:
                             with torch.no_grad():
